@@ -6,8 +6,7 @@ import HeroSection from './components/HeroSection'
 export const HomePage: NextPage = () => {
   return (
     <Layout>
-        <HeroSection />
-
+        <HeroSection  sx/>
     </Layout>
   )
 }

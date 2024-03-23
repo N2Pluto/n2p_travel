@@ -15,9 +15,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className="w-screen">
         
       <Navbar />
-        <div className="min-h-[calc(100vh-70px-88px)]">{children}</div>
+        <div style={{paddingTop: '10px'}} className="min-h-[calc(100vh-70px-88px)]">{children}</div>
         <Footer />
-
       </div>
     </React.Fragment>
   )
