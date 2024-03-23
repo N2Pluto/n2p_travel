@@ -114,6 +114,9 @@ const Navbar: React.FC<NavbarProps> = () => {
           <a href='/Contact' className='text-sm font-semibold leading-6 text-gray-900'>
             Contact
           </a>
+          <a href='/Admin' className='text-sm font-semibold leading-6 text-gray-900'>
+            Admin Panel
+          </a>
         </Popover.Group>
         <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
           {/* <a href='#' className='text-sm font-semibold leading-6 text-gray-900'>
