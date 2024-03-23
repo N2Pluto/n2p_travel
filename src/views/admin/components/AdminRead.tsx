@@ -54,15 +54,17 @@ const Img = styled('img')(({ theme }) => ({
 const AdminRead: React.FC = () => {
   const [tourismData, setTourismData] = useState([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('/api/Tourism/read/fetchTourism')
-      const data = await response.json()
-      setTourismData(data)
-    }
+ useEffect(() => {
+   const fetchData = async () => {
+     const response = await fetch('/api/Tourism/read/fetchTourism')
+     const data = await response.json()
+     setTourismData(data)
+   }
 
-    fetchData()
-  }, [])
+   const interval = setInterval(fetchData, 3000)
+
+   return () => clearInterval(interval)
+ }, [])
 
   return (
     <>
