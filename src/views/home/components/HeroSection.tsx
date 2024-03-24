@@ -46,9 +46,8 @@ const HeroSection: React.FC = () => {
           </Grid>
 
           <Grid container spacing={2} sx={{pt:3}}>
-            <Grid item xs={12} sm={6} md={6}>
+
               <CardImgTop />
-            </Grid>
           </Grid>
         </Grid>
       </Grid>
