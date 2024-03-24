@@ -73,3 +73,7 @@ body {
   font-weight: 700;
   font-style: normal;
 }
+
+.red-button {
+  color: red;
+}

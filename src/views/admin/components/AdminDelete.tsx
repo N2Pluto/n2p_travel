@@ -34,7 +34,7 @@ const AdminDelete: React.FC<AdminDeleteProps> = ({ id }) => {
   return (
     <>
       <Grid>
-        <Button variant='outlined' onClick={handleClickOpen} className='mitr-light'>
+        <Button onClick={handleClickOpen} className='mitr-light red-button'>
           Delete
         </Button>
         <Dialog
@@ -44,9 +44,13 @@ const AdminDelete: React.FC<AdminDeleteProps> = ({ id }) => {
           aria-describedby='alert-dialog-description'
           className='mitr-light'
         >
-          <DialogTitle id='alert-dialog-title' className='mitr-light'>{'Delete Data?'}</DialogTitle>
+          <DialogTitle id='alert-dialog-title' className='mitr-light'>
+            {'Delete Data?'}
+          </DialogTitle>
           <DialogContent>
-            <DialogContentText id='alert-dialog-description' className='mitr-light'>You want to delete this data?</DialogContentText>
+            <DialogContentText id='alert-dialog-description' className='mitr-light'>
+              You want to delete this data?
+            </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>No</Button>
