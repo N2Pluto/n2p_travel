@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout'
 
 import { NextPage } from 'next'
-import HeroSection from './page/HeroSection'
+import HeroSection from './components/HeroSection'
 
 export const HomePage: NextPage = () => {
   return (

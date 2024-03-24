@@ -9,11 +9,11 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <React.Fragment>
-      <div className="w-screen">
         <Navbar />
-        <div style={{paddingTop: '100px'}} className="min-h-[calc(100vh-70px-88px)] pt-12">{children}</div>
+        <div  className='min-h-[calc(100vh-10px-8px)] pt-12 never-used box-content'>
+          {children}
+        </div>
         <Footer />
-      </div>
     </React.Fragment>
   )
 }
