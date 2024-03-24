@@ -7,8 +7,8 @@ import AdminInsert from './components/AdminInsert'
 
 import { Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import CardAdmin from './components/cardadmin'
-import CardEdit from './components/adminr'
+import CardAdmin from './components/Cardadmin'
+import CardEdit from './components/AdminRead'
 import Link from 'next/link'
 
 export const Admin: NextPage = () => {
