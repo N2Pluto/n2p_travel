@@ -34,7 +34,8 @@ body {
 
 
 .box-content {
-  @apply pt-20; 
+  @apply pt-20;
+  @apply pb-20; 
 }
 
 .mitr-extralight {

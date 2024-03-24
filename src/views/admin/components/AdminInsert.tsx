@@ -38,8 +38,8 @@ const AdminInsert: React.FC = () => {
 
   return (
     <>
-      <Grid>
-        <Button variant='outlined' onClick={handleClickOpen}>
+      <Grid className='mitr-light'>
+        <Button variant='outlined' onClick={handleClickOpen} className='mitr-light'>
           INSERT
         </Button>
         <Dialog
@@ -50,9 +50,9 @@ const AdminInsert: React.FC = () => {
             onSubmit: handleSubmit
           }}
         >
-          <DialogTitle>INSERT</DialogTitle>
+          <DialogTitle className='mitr-light'>INSERT</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText className='mitr-light'>
               To INSERT to this website, please enter your details here. We will send updates occasionally.
             </DialogContentText>
             <TextField
@@ -65,6 +65,7 @@ const AdminInsert: React.FC = () => {
               type='text'
               fullWidth
               variant='standard'
+              className='mitr-light'
             />
             <TextField
               required
@@ -75,8 +76,20 @@ const AdminInsert: React.FC = () => {
               type='text'
               fullWidth
               variant='standard'
+              className='mitr-light'
             />
-            <input accept='image/*' id='images' name='images' type='file' />
+            <TextField
+              required
+              margin='dense'
+              id='img'
+              name='img'
+              label='images'
+              type='text'
+              fullWidth
+              variant='standard'
+              className='mitr-light'
+            />
+
 
             <TextField
               required
@@ -87,6 +100,7 @@ const AdminInsert: React.FC = () => {
               type='text'
               fullWidth
               variant='standard'
+              className='mitr-light'
             />
             <TextField
               required
@@ -97,6 +111,7 @@ const AdminInsert: React.FC = () => {
               type='text'
               fullWidth
               variant='standard'
+              className='mitr-light'
             />
             <TextField
               required
@@ -107,6 +122,7 @@ const AdminInsert: React.FC = () => {
               type='text'
               fullWidth
               variant='standard'
+              className='mitr-light'
             />
             <TextField
               required

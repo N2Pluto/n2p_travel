@@ -2,10 +2,10 @@
 import supabase from '@/libs/supabase'
 
 const handler = async (req: any, res: any) => {
-  const { id, name, description, images, operation_time, location, latitude, longitude } = req.body
+  const { id, name, description, img, operation_time, location, latitude, longitude } = req.body
   const { data, error } = await supabase
     .from('Tourism')
-    .update({ name, description, images, operation_time, location, latitude, longitude })
+    .update({ name, description, img, operation_time, location, latitude, longitude })
     .eq('id', id)
 
   if (error) {

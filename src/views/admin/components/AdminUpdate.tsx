@@ -51,7 +51,7 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
   return (
     <>
       <Grid>
-        <Button variant='outlined' onClick={handleClickOpen}>
+        <Button onClick={handleClickOpen} className='mitr-light'>
           Edit
         </Button>
         <Dialog
@@ -62,12 +62,13 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
             onSubmit: handleSubmit
           }}
         >
-          <DialogTitle>Edit</DialogTitle>
+          <DialogTitle className='mitr-light'>Edit</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText className='mitr-light'>
               To Edit to this website, please enter your details here. We will send updates occasionally.
             </DialogContentText>
             <TextField
+            className='mitr-light'
               required
               margin='dense'
               id='id'
@@ -104,7 +105,19 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               value={itemData.description || ''}
               onChange={handleInputChange}
             />
-            <input accept='image/*' id='images' name='images' type='file' />
+            <TextField
+              required
+              margin='dense'
+              id='img'
+              name='img'
+              label='img'
+              type='text'
+              fullWidth
+              variant='standard'
+              value={itemData.img || ''}
+              onChange={handleInputChange}
+            />
+
 
             <TextField
               required

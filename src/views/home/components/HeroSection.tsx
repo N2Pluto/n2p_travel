@@ -41,13 +41,12 @@ const HeroSection: React.FC = () => {
             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
             <Typography variant='h4' className='mitr-semibold'>
-              บล็อกแนะนำ ถานที่เที่ยวภูเก็ต
+              บล็อกแนะนำ สถานที่เที่ยวภูเก็ต
             </Typography>
           </Grid>
 
-          <Grid container spacing={2} sx={{pt:3}}>
-
-              <CardImgTop />
+          <Grid container spacing={3} sx={{ pt: 3 }}>
+            <CardImgTop />
           </Grid>
         </Grid>
       </Grid>

@@ -45,7 +45,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <span className='text-sm font-semibold leading-6 text-gray-900'>Contact</span>
           </Link>
           <Link href='/Admin'>
-            <span className='text-sm font-semibold leading-6 text-gray-900'>Contact</span>
+            <span className='text-sm font-semibold leading-6 text-gray-900'>Admin</span>
           </Link>
 
         </Popover.Group>

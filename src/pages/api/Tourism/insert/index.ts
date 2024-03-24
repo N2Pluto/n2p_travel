@@ -2,10 +2,10 @@
 import supabase from '@/libs/supabase'
 
 const handler = async (req: any, res: any) => {
-  const { name, description, images, operation_time, location, latitude, longitude } = req.body
+  const { name, description, img, operation_time, location, latitude, longitude } = req.body
   const { data, error } = await supabase
     .from('Tourism')
-    .insert([{ name, description, images, operation_time, location, latitude, longitude }])
+    .insert([{ name, description, img, operation_time, location, latitude, longitude }])
 
   if (error) {
     res.status(500).json({ error: error.message })
