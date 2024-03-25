@@ -40,6 +40,8 @@ const AdminInsert: React.FC = () => {
   const [imgCoverUrl , setImgCoverUrl] = useState({})
   const [imgDetailUrl, setImgDetailUrl] = useState<string[]>([])
 
+  
+
   const handleCoverUploadClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target
 
@@ -99,10 +101,34 @@ const AdminInsert: React.FC = () => {
     }
   }
 
-  const handleDelete = (index: number) => {
+  const handleCoverDelete = async () => {
+    if (coverImage) {
+      // Delete file from Supabase
+      const filePath = `public/${coverImage.name}`
+      const { error } = await supabase.storage.from('image').remove([filePath])
+      if (error) {
+        console.error('Error deleting cover image: ', error.message)
+      } else {
+        console.log('Cover image deleted successfully')
+        setCoverImage(null)
+      }
+    }
+  }
+
+  const handleDelete = async (index: number) => {
     const newFileList = [...fileList]
-    newFileList.splice(index, 1)
-    setFileList(newFileList)
+    const fileToDelete = newFileList[index]
+
+    // Delete file from Supabase
+    const filePath = `public/${fileToDelete.name}`
+    const { error } = await supabase.storage.from('image').remove([filePath])
+    if (error) {
+      console.error('Error deleting image: ', error.message)
+    } else {
+      console.log('Image deleted successfully')
+      newFileList.splice(index, 1)
+      setFileList(newFileList)
+    }
   }
 
   const handleClickOpen = () => {
@@ -183,7 +209,7 @@ const AdminInsert: React.FC = () => {
               <Grid container justifyContent='center' alignItems='center'>
                 <Grid item xs={4}>
                   <div style={{ position: 'relative' }}>
-                    <IconButton onClick={() => setCoverImage(null)} style={{ position: 'absolute', top: 0, right: 0 }}>
+                    <IconButton onClick={handleCoverDelete} style={{ position: 'absolute', top: 0, right: 0 }}>
                       <Close />
                     </IconButton>
                     <img

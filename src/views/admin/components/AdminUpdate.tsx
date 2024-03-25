@@ -44,6 +44,28 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
   const [uploading, setUploading] = React.useState(false)
   const [imgDetailUrl, setImgDetailUrl] = useState<string[]>([])
 
+  const handleCoverDelete = async () => {
+    const filePath = `public/${coverImage?.name}`
+    const { error } = await supabase.storage.from('image').remove([filePath])
+    if (error) {
+      console.error('Error deleting cover image: ', error.message)
+    } else {
+      console.log('Cover image deleted successfully')
+      setCoverImage(null)
+    }
+  }
+
+  const handleFileDelete = async (index: number) => {
+    const file = fileList[index]
+    const filePath = `public/${file.name}`
+    const { error } = await supabase.storage.from('image').remove([filePath])
+    if (error) {
+      console.error('Error deleting image: ', error.message)
+    } else {
+      console.log('Image deleted successfully')
+      setFileList(prevState => prevState.filter((_, i) => i !== index))
+    }
+  }
 
   const handleClickOpen = async () => {
     const response = await fetch(`/api/Tourism/read/readByID/${id}`)
@@ -122,32 +144,31 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     }
   }
 
- const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-   event.preventDefault()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-   const formData = new FormData(event.currentTarget)
-   let formJson = Object.fromEntries((formData as any).entries())
+    const formData = new FormData(event.currentTarget)
+    let formJson = Object.fromEntries((formData as any).entries())
 
-   // Add imgCoverUrl and id to the form data
-   formJson = {
-     ...formJson,
-     id: itemData.id, // Add this line
-     imgCover: imgCoverUrl.imgCover,
-     imgDetail: imgDetailUrl.join(',')
-   }
+    formJson = {
+      ...formJson,
+      id: itemData.id, // Add this line
+      imgCover: imgCoverUrl.imgCover,
+      imgDetail: imgDetailUrl.join(',')
+    }
 
-   console.log(formJson)
-   const response = await fetch('/api/Tourism/update', {
-     method: 'PUT',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify(formJson)
-   })
-   const data = await response.json()
-   console.log(data)
-   handleClose()
- }
+    console.log(formJson)
+    const response = await fetch('/api/Tourism/update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formJson)
+    })
+    const data = await response.json()
+    console.log(data)
+    handleClose()
+  }
 
   return (
     <>
@@ -191,7 +212,7 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               <Grid container justifyContent='center' alignItems='center'>
                 <Grid item xs={4}>
                   <div style={{ position: 'relative' }}>
-                    <IconButton onClick={() => setCoverImage(null)} style={{ position: 'absolute', top: 0, right: 0 }}>
+                    <IconButton onClick={handleCoverDelete} style={{ position: 'absolute', top: 0, right: 0 }}>
                       <Close />
                     </IconButton>
                     <img
@@ -226,7 +247,10 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               {fileList.map((file, index) => (
                 <Grid item xs={4} key={index}>
                   <div style={{ position: 'relative' }}>
-                    <IconButton onClick={() => handleDelete(index)} style={{ position: 'absolute', top: 0, right: 0 }}>
+                    <IconButton
+                      onClick={() => handleFileDelete(index)}
+                      style={{ position: 'absolute', top: 0, right: 0 }}
+                    >
                       <Close />
                     </IconButton>
                     <img
