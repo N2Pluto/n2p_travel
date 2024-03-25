@@ -13,6 +13,7 @@ import Grid, { GridProps } from '@mui/material/Grid'
 import { useEffect, useState } from 'react'
 import AdminUpdate from './AdminUpdate'
 import AdminDelete from './AdminDelete'
+import { keyframes } from '@emotion/react'
 
 // Styled Grid component
 const StyledGrid1 = styled(Grid)<GridProps>(({ theme }) => ({
@@ -50,15 +51,15 @@ const Img = styled('img')(({ theme }) => ({
 }))
 
 interface Item {
-  id: number;
-  name: string;
-  operation_time: string;
-  description: string;
-  imgCover: string;
+  id: number
+  name: string
+  operation_time: string
+  description: string
+  imgCover: string
 }
 
 const CardEdit = () => {
-const [tourismData, setTourismData] = useState<Item[]>([])
+  const [tourismData, setTourismData] = useState<Item[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +80,16 @@ const [tourismData, setTourismData] = useState<Item[]>([])
       <Grid container spacing={2}>
         {tourismData.map((item, index: number) => (
           <Grid item xs={12} sm={6} md={6} key={index}>
-            <Card className='mitr-light'>
+            <Card
+              className='mitr-light'
+              sx={{
+                transition: '0.3s',
+                '&:hover': {
+                  transform: 'scale(1.02)',
+                  boxShadow: '0 0 20px rgba(0,0,0,0.15)'
+                }
+              }}
+            >
               <Grid container spacing={6}>
                 <StyledGrid1 item xs={12} md={6} lg={7}>
                   <CardContent>

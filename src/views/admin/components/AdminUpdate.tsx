@@ -13,6 +13,7 @@ import { Close } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
+
 import supabase from '@/libs/supabase'
 
 const VisuallyHiddenInput = styled('input')({
@@ -44,6 +45,8 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
   const [uploading, setUploading] = React.useState(false)
   const [imgDetailUrl, setImgDetailUrl] = useState<string[]>([])
 
+   
+
   const handleCoverDelete = async () => {
     const filePath = `public/${coverImage?.name}`
     const { error } = await supabase.storage.from('image').remove([filePath])
@@ -72,6 +75,8 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     const data = await response.json()
     setItemData(data)
     setOpen(true)
+
+    
   }
 
   const handleClose = () => {
@@ -168,6 +173,7 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     const data = await response.json()
     console.log(data)
     handleClose()
+
   }
 
   return (
@@ -343,6 +349,7 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
           </DialogActions>
         </Dialog>
       </Grid>
+
     </>
   )
 }

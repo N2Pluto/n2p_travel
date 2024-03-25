@@ -14,6 +14,8 @@ import { Close } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 import supabase from '@/libs/supabase'
 
 const VisuallyHiddenInput = styled('input')({
@@ -37,10 +39,21 @@ const AdminInsert: React.FC = () => {
   const [uploading, setUploading] = React.useState(false)
   const [coverImage, setCoverImage] = useState<File | null>(null)
   const [uploadingCover, setUploadingCover] = React.useState(false)
-  const [imgCoverUrl , setImgCoverUrl] = useState({})
+  const [imgCoverUrl, setImgCoverUrl] = useState({})
   const [imgDetailUrl, setImgDetailUrl] = useState<string[]>([])
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false)
 
-  
+  const handleSnackbarOpen = () => {
+    setSnackbarOpen(true)
+  }
+
+  const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setSnackbarOpen(false)
+  }
 
   const handleCoverUploadClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target
@@ -141,31 +154,33 @@ const AdminInsert: React.FC = () => {
     setCoverImage(null)
   }
 
- const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-   event.preventDefault()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-   const formData = new FormData(event.currentTarget)
-   let formJson = Object.fromEntries((formData as any).entries())
+    const formData = new FormData(event.currentTarget)
+    let formJson = Object.fromEntries((formData as any).entries())
 
-   // Add imgCoverUrl and imgDetailUrl to the form data
-   formJson = {
-     ...formJson,
-     imgCover: imgCoverUrl.imgCover,
-     imgDetail: imgDetailUrl.join(',')
-   }
+    // Add imgCoverUrl and imgDetailUrl to the form data
+    formJson = {
+      ...formJson,
+      imgCover: imgCoverUrl.imgCover,
+      imgDetail: imgDetailUrl.join(',')
+    }
 
-   console.log(formJson)
-   const response = await fetch('/api/Tourism/insert/', {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify(formJson)
-   })
-   const data = await response.json()
-   console.log(data)
-   handleClose()
- }
+    console.log(formJson)
+    const response = await fetch('/api/Tourism/insert/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formJson)
+    })
+    const data = await response.json()
+    console.log(data)
+    handleClose()
+
+    handleSnackbarOpen()
+  }
 
   return (
     <>
@@ -331,6 +346,17 @@ const AdminInsert: React.FC = () => {
           </DialogActions>
         </Dialog>
       </Grid>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={handleSnackbarClose} severity='success' variant='filled' sx={{ width: '100%' }}>
+          Insert Data Successfully!
+        </Alert>
+      </Snackbar>
     </>
   )
 }

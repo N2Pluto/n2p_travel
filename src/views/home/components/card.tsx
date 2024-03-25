@@ -39,7 +39,15 @@ const CardImgTop = () => {
     <>
       {tourism.map((item, index) => (
         <Grid item xs={12} sm={6} md={6} key={index}>
-          <Card>
+          <Card
+            sx={{
+              transition: '0.3s',
+              '&:hover': {
+                transform: 'scale(1.02)',
+                boxShadow: '0 0 20px rgba(0,0,0,0.15)'
+              }
+            }}
+          >
             <CardMedia sx={{ height: '14.5625rem' }} image={item.imgCover} />
             <CardContent>
               <Typography variant='h6' className='mitr-light' sx={{ marginBottom: 2 }}>
