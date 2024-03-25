@@ -13,6 +13,8 @@ interface TourismData {
   img: string
   name: string
   description: string
+  id : string
+  img1 : string 
 }
 const CardImgTop = () => {
   const router = useRouter()

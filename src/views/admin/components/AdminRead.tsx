@@ -98,7 +98,7 @@ const CardEdit = () => {
                 </StyledGrid1>
                 <StyledGrid2 item xs={12} md={6} lg={5}>
                   <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Img sx={{ height: '14.5625rem' }} alt={item.name} src={item.img1} />
+                    <Img sx={{ height: '18.5625rem' }} alt={item.name} src={item.img1} />
                   </CardContent>
                 </StyledGrid2>
               </Grid>
