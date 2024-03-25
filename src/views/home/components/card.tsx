@@ -14,7 +14,7 @@ interface TourismData {
   name: string
   description: string
   imgCover: string
-  id : string
+  id: string
 }
 const CardImgTop = () => {
   const router = useRouter()
@@ -49,8 +49,8 @@ const CardImgTop = () => {
                 {item.description.substring(0, 200)} ...
               </Typography>
             </CardContent>
-            <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-              <Button onClick={() => handleButtonClick(item.id)}>Detail</Button>
+            <CardActions className='card-action-dense' sx={{ width: '100%', justifyContent: 'flex-end' }}>
+              <Button onClick={() => handleButtonClick(item.id)}>ดูรายละเอียดเพิ่มเติม</Button>
             </CardActions>
           </Card>
         </Grid>

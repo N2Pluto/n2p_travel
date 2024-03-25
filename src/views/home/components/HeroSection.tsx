@@ -9,7 +9,7 @@ import CardTop from './Topcard'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Typography } from '@mui/material'
 import CardImgTop from './Card'
-import CardRecommend from './recommend'
+import CardRecommend from './Carousel'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -45,22 +45,25 @@ const HeroSection: React.FC = () => {
               บล็อกแนะนำ สถานที่เที่ยวภูเก็ต
             </Typography>
           </Grid>
+          <Grid container spacing={3} sx={{ pt: 3 }}></Grid>
           <Grid container spacing={3} sx={{ pt: 3 }}>
-            <CardRecommend />
+            <Grid item xs={12} sm={12} md={12}>
+              <CardRecommend />
+            </Grid>
           </Grid>
 
           <Grid container spacing={3} sx={{ pt: 3 }}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Typography variant='h4' className='mitr-semibold'>
-              สถานที่เที่ยวภูเก็ต
-            </Typography>
-          </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Typography variant='h4' className='mitr-semibold'>
+                สถานที่เที่ยวภูเก็ต
+              </Typography>
+            </Grid>
             <CardImgTop />
           </Grid>
         </Grid>

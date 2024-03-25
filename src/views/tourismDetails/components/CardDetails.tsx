@@ -60,7 +60,7 @@ const CardDetails: React.FC = () => {
                   images = tourism.imgDetail
                     .split(',')
                     .map((imgUrl, index) => (
-                      <CardMedia key={index} sx={{ height: '50.5625rem' }} image={imgUrl}></CardMedia>
+                      <CardMedia key={index} sx={{ height: '30.5625rem' }} image={imgUrl}></CardMedia>
                     ))
                 }
 
