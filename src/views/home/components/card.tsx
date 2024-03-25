@@ -13,6 +13,8 @@ interface TourismData {
   img: string
   name: string
   description: string
+  imgCover: string
+  id : string
 }
 const CardImgTop = () => {
   const router = useRouter()
@@ -44,7 +46,7 @@ const CardImgTop = () => {
                 {item.name}
               </Typography>
               <Typography variant='body2' className='mitr-light'>
-                {item.description.substring(0, 300)} ...
+                {item.description.substring(0, 200)} ...
               </Typography>
             </CardContent>
             <CardActions className='card-action-dense' sx={{ width: '100%' }}>

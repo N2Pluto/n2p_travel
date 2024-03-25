@@ -2,14 +2,15 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { useEffect, useState } from 'react'
-import { Grid } from '@mui/material'
+import { JSX, ReactChild, useEffect, useState } from 'react'
+import { Box, Grid } from '@mui/material'
 import Button from '@mui/material/Button'
 import CardActions from '@mui/material/CardActions'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import Image from 'next/image'
 
 interface TourismData {
   id: number
@@ -54,41 +55,49 @@ const CardDetails: React.FC = () => {
           <Card>
             <Carousel>
               {(() => {
-                let images = []
+                let images: JSX.Element[] | ReactChild[] | undefined = []
                 if (tourism.imgDetail) {
-                  images = tourism.imgDetail.split(',').map((imgUrl, index) => (
-                    <div key={index}>
-                      <img src={imgUrl} />
-                    </div>
-                  ))
+                  images = tourism.imgDetail
+                    .split(',')
+                    .map((imgUrl, index) => (
+                      <CardMedia key={index} sx={{ height: '50.5625rem' }} image={imgUrl}></CardMedia>
+                    ))
                 }
 
                 return images
               })()}
             </Carousel>
             <CardContent>
-              <Typography variant='h6' className='mitr-light' sx={{ marginBottom: 2 }}>
+              <Typography variant='h6' className='mitr-medium' sx={{ marginBottom: 2 }}>
                 ชื่อ : {tourism.name}
               </Typography>
-              <Typography variant='body2' className='mitr-light'>
-                คำอธิบาย : {tourism.description}
+              <Typography variant='body2' className='mitr-light' sx={{ pb: 2 }}>
+                <span className='mitr-medium'> คำอธิบาย : </span>
+                {tourism.description}
               </Typography>
-              <Typography variant='body2' className='mitr-light'>
-                เวลาเปิด-ปิด : {tourism.operation_time}
+              <Typography variant='body2' className='mitr-light' sx={{ pb: 2 }}>
+                <span className='mitr-medium'> เวลาเปิด-ปิด : </span>
+                {tourism.operation_time}
               </Typography>
-              <Typography variant='body2' className='mitr-light'>
-                ตำแหน่งที่อยู่ : {tourism.location}
+              <Typography variant='body2' className='mitr-light' sx={{ pb: 2 }}>
+                <span className='mitr-medium'> ตำแหน่งที่อยู่ : </span>
+                {tourism.location}
               </Typography>
 
-              <iframe
-                src={`http://maps.google.com/maps?q=${tourism.latitude},${tourism.longitude}&z=16&output=embed`}
-                height='300'
-                width='1000'
-              ></iframe>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Typography variant='h6' className='mitr-light' sx={{ pb: 2, pt: 3 }}>
+                  <span className='mitr-medium'> แผนที่ </span>
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
+                <iframe
+                  src={`http://maps.google.com/maps?q=${tourism.latitude},${tourism.longitude}&z=16&output=embed`}
+                  height='300'
+                  width='1000'
+                ></iframe>
+              </Box>
             </CardContent>
-            <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-              <Button>Detail</Button>
-            </CardActions>
           </Card>
         </Grid>
       )}

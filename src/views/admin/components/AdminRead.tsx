@@ -1,3 +1,5 @@
+// Define the interface for the items
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -47,8 +49,16 @@ const Img = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
+interface Item {
+  id: number;
+  name: string;
+  operation_time: string;
+  description: string;
+  imgCover: string;
+}
+
 const CardEdit = () => {
-  const [tourismData, setTourismData] = useState([])
+const [tourismData, setTourismData] = useState<Item[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
