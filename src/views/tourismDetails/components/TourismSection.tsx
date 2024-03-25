@@ -3,13 +3,10 @@ import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
-import CardWithCollapse from './Card'
-import CardTop from './Topcard'
-
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Typography } from '@mui/material'
-import CardImgTop from './Card'
-import CardRecommend from './recommend'
+import CardDetails from './CardDetails'
+import CardTop from '@/views/home/components/Topcard'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,7 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const HeroSection: React.FC = () => {
+const TourismSection: React.FC = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -33,6 +30,8 @@ const HeroSection: React.FC = () => {
             <span className='mitr-light'>หน้าแรก</span>
             <ExpandMoreIcon style={{ transform: 'rotate(270deg)' }} />
             <span className='mitr-light'>บล็อกท่องเที่ยว</span>
+            <ExpandMoreIcon style={{ transform: 'rotate(270deg)' }} />
+            <span className='mitr-light'>รายละเอียด</span>
           </Grid>
           <Grid
             item
@@ -45,29 +44,17 @@ const HeroSection: React.FC = () => {
               บล็อกแนะนำ สถานที่เที่ยวภูเก็ต
             </Typography>
           </Grid>
-          <Grid container spacing={3} sx={{ pt: 3 }}>
-            <CardRecommend />
-          </Grid>
 
           <Grid container spacing={3} sx={{ pt: 3 }}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Typography variant='h4' className='mitr-semibold'>
-              สถานที่เที่ยวภูเก็ต
-            </Typography>
-          </Grid>
-            <CardImgTop />
+            <Grid item xs={12} sm={12} md={12}>
+              <CardDetails />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={2}></Grid>
+      <Grid></Grid>
     </Grid>
   )
 }
 
-export default HeroSection
+export default TourismSection
