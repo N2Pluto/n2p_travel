@@ -1,1 +1,1 @@
-export { HomePage as default } from '@/views/home'
+export { WelcomePage as default } from '@/views/welcome'

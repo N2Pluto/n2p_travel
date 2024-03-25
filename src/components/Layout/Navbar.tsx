@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = () => {
     <header className='bg-white fixed w-full z-50'>
       <nav className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8' aria-label='Global'>
         <div className='flex lg:flex-1'>
-          <Link href='/' className='-m-1.5 p-1.5'>
+          <Link href='/home' className='-m-1.5 p-1.5'>
             <p className='text-2xl font-bold text-gray-900'>Trip Lot</p>
           </Link>
         </div>
@@ -38,14 +38,14 @@ const Navbar: React.FC<NavbarProps> = () => {
           </button>
         </div>
         <Popover.Group className='hidden lg:flex lg:gap-x-12'>
-          <Link href='/'>
-            <span className='text-sm font-semibold leading-6 text-gray-900'>Home</span>
+          <Link href='/home'>
+            <span className='mitr-medium  text-sm font-semibold leading-6 text-gray-900'>Home</span>
           </Link>
           <Link href='/Contact'>
-            <span className='text-sm font-semibold leading-6 text-gray-900'>Contact</span>
+            <span className='mitr-medium  text-sm font-semibold leading-6 text-gray-900'>Contact</span>
           </Link>
           <Link href='/Admin'>
-            <span className='text-sm font-semibold leading-6 text-gray-900'>Admin</span>
+            <span className='mitr-medium  text-sm font-semibold leading-6 text-gray-900'>Admin</span>
           </Link>
 
         </Popover.Group>

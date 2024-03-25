@@ -1,8 +1,8 @@
-import Card from '@mui/material/Card'
-import CardMedia from '@mui/material/CardMedia'
 import { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
-import { Carousel } from 'react-responsive-carousel'
+import CarouselDefault from './dssf'
+import MuiCarousel from './dssf'
+
 
 interface TourismData {
   img1: string
@@ -30,16 +30,11 @@ const CardRecommend = () => {
     fetchData()
   }, [])
 
+
   return (
-    <>
-      <Grid item xs={12} sm={12} md={12}>
-        <Carousel autoPlay interval={3000}>
-          {tourism.map((tourismItem, index) => (
-            <CardMedia key={index} sx={{ height: '20.5625rem' }} image={tourismItem.img1}></CardMedia>
-          ))}
-        </Carousel>
-      </Grid>
-    </>
+    <Grid item xs={12} sm={12} md={12}>
+        <MuiCarousel />
+    </Grid>
   )
 }
 
