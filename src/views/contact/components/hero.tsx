@@ -3,12 +3,11 @@ import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
-import CardTop from './Topcard'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Typography } from '@mui/material'
-import CardImgTop from './Card'
-import CardRecommend from './Carousel'
+import CardContent from './cardContact'
+import ContactSection from './contact'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,11 +17,12 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const HeroSection: React.FC = () => {
+const HeroContact: React.FC = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <CardTop />
+      <CardContent />
+
       </Grid>
       <Grid item xs={2}></Grid>
 
@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
           <Grid item xs={12} sm={12} md={12}>
             <span className='mitr-light'>หน้าแรก</span>
             <ExpandMoreIcon style={{ transform: 'rotate(270deg)' }} />
-            <span className='mitr-light'>บล็อกท่องเที่ยว</span>
+            <span className='mitr-light'>ข้อมูลการติดต่อ</span>
           </Grid>
           <Grid
             item
@@ -41,30 +41,16 @@ const HeroSection: React.FC = () => {
             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
             <Typography variant='h4' className='mitr-semibold'>
-              บล็อกแนะนำ สถานที่เที่ยวภูเก็ต
+              ข้อมูลการติดต่อ
             </Typography>
           </Grid>
           <Grid container spacing={3} sx={{ pt: 3 }}></Grid>
           <Grid container spacing={3} sx={{ pt: 3 }}>
             <Grid item xs={12} sm={12} md={12}>
-              <CardRecommend />
+              <ContactSection />
             </Grid>
           </Grid>
 
-          <Grid container spacing={3} sx={{ pt: 3 }}>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-            >
-              <Typography variant='h4' className='mitr-semibold'>
-                สถานที่เที่ยวภูเก็ต
-              </Typography>
-            </Grid>
-            <CardImgTop />
-          </Grid>
         </Grid>
       </Grid>
       <Grid item xs={2}></Grid>
@@ -72,4 +58,4 @@ const HeroSection: React.FC = () => {
   )
 }
 
-export default HeroSection
+export default HeroContact
