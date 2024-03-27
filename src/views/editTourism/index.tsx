@@ -42,17 +42,24 @@ export const Admin: NextPage = () => {
               </Typography>
             </Grid>
 
-            <Grid container spacing={3} sx={{ pt: 3 ,pb: 5}}>
-              <AdminInsert />
+            <Grid container spacing={3} sx={{ pt: 3, pb: 5 }}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+              >
+                <AdminInsert />
+              </Grid>
             </Grid>
             <Grid container spacing={3} sx={{ pt: 3 }}>
-            <CardEdit />
+              <CardEdit />
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={1}></Grid>
       </Grid>
-
     </Layout>
   )
 }

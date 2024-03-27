@@ -186,7 +186,7 @@ const AdminInsert: React.FC = () => {
     <>
       <Grid className='mitr-light'>
         <Button variant='outlined' onClick={handleClickOpen} className='mitr-light'>
-          INSERT
+          Insert New Data
         </Button>
         <Dialog
           open={open}
