@@ -290,7 +290,8 @@ const AdminInsert: React.FC = () => {
               id='description'
               name='description'
               label='Description'
-              type='text'
+              multiline
+              rows={4}
               fullWidth
               variant='standard'
               className='mitr-light'
@@ -324,7 +325,7 @@ const AdminInsert: React.FC = () => {
               id='latitude'
               name='latitude'
               label='Latitude'
-              type='text'
+              type='number'
               fullWidth
               variant='standard'
               className='mitr-light'
@@ -335,7 +336,7 @@ const AdminInsert: React.FC = () => {
               id='longitude'
               name='longitude'
               label='Longitude'
-              type='text'
+              type='number'
               fullWidth
               variant='standard'
             />

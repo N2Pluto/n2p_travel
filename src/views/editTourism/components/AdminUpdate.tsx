@@ -325,6 +325,8 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               id='description'
               name='description'
               label='Description'
+              multiline
+              rows={4}
               type='text'
               fullWidth
               variant='standard'
@@ -361,7 +363,7 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               id='latitude'
               name='latitude'
               label='Latitude'
-              type='text'
+              type='number'
               fullWidth
               variant='standard'
               value={itemData.latitude || ''}
@@ -373,7 +375,7 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               id='longitude'
               name='longitude'
               label='Longitude'
-              type='text'
+              type='number'
               fullWidth
               variant='standard'
               value={itemData.longitude || ''}
