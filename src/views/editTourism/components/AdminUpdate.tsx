@@ -45,8 +45,6 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
   const [uploading, setUploading] = React.useState(false)
   const [imgDetailUrl, setImgDetailUrl] = useState<string[]>([])
 
-   
-
   const handleCoverDelete = async () => {
     const filePath = `public/${coverImage?.name}`
     const { error } = await supabase.storage.from('image').remove([filePath])
@@ -76,8 +74,46 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     setItemData(data)
     setOpen(true)
 
-    
+    const coverImageUrl = data.imgCover
+    if (coverImageUrl) {
+      const response = await fetch(coverImageUrl)
+      const blob = await response.blob()
+      const file = new File([blob], 'coverImage', { type: blob.type })
+      setCoverImage(file)
+    }
+
+    const imgDetailUrls = data.imgDetail.split(',').filter(url => url.trim() !== '')
+    const files: File[] = []
+    for (const url of imgDetailUrls) {
+      const response = await fetch(url)
+      const blob = await response.blob()
+      const actualFileName = url.substring(url.lastIndexOf('/') + 1)
+      const file = new File([blob], actualFileName, { type: blob.type })
+      files.push(file)
+    }
+    setFileList(files)
   }
+  useEffect(() => {
+    console.log('imgDetail:', fileList)
+  }, [fileList])
+
+  useEffect(() => {
+    const updateImgDetailUrl = async () => {
+      const urls: string[] = []
+      for (const file of fileList) {
+        const filePath = `public/${file.name}`
+        const { data, error } = await supabase.storage.from('image').getPublicUrl(filePath)
+        if (error) {
+          console.error('Error getting public URL: ', error.message)
+        } else {
+          const { publicUrl } = data
+          urls.push(publicUrl)
+        }
+      }
+      setImgDetailUrl(urls)
+    }
+    updateImgDetailUrl()
+  }, [fileList])
 
   const handleClose = () => {
     setOpen(false)
@@ -98,7 +134,8 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
       setCoverImage(files[0])
 
       // Upload file to Supabase
-      const filePath = `public/${files[0].name}`
+      const timestamp = Date.now()
+      const filePath = `public/${timestamp}_${files[0].name}`
       setUploadingCover(true)
       const { error } = await supabase.storage.from('image').upload(filePath, files[0])
       if (error) {
@@ -123,13 +160,13 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     const { files } = event.target
 
     if (files && files.length !== 0) {
-      setFileList([...fileList, files[0]])
       reader.onload = () => setPreviewImage(reader.result as string)
       reader.readAsDataURL(files[0])
       setPreviewTitle(files[0].name)
 
       // Upload file to Supabase
-      const filePath = `public/${files[0].name}`
+      const timestamp = Date.now()
+      const filePath = `public/${timestamp}_${files[0].name}`
       setUploading(true)
       const { error } = await supabase.storage.from('image').upload(filePath, files[0])
       if (error) {
@@ -144,6 +181,7 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
           const { publicUrl } = data
           setImgDetailUrl(prevState => [...prevState, publicUrl])
           console.log('Image Details URL:', publicUrl)
+          setFileList([...fileList, files[0]]) // Update fileList state here
         }
       }
     }
@@ -173,7 +211,6 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     const data = await response.json()
     console.log(data)
     handleClose()
-
   }
 
   return (
@@ -349,7 +386,6 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
           </DialogActions>
         </Dialog>
       </Grid>
-
     </>
   )
 }
