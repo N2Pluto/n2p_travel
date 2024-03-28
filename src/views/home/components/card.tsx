@@ -8,6 +8,24 @@ import Button from '@mui/material/Button'
 import CardActions from '@mui/material/CardActions'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { keyframes, styled } from '@mui/system'
+
+const slideIn = keyframes`
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`
+
+const AnimatedCard = styled(Card)(({ theme, delay }) => ({
+  animation: `${slideIn} 0.5s ease-out ${delay}s forwards`,
+  transformOrigin: 'left',
+  opacity: 0
+}))
 
 interface TourismData {
   img: string
@@ -39,7 +57,7 @@ const CardImgTop = () => {
     <>
       {tourism.map((item, index) => (
         <Grid item xs={12} sm={6} md={6} key={index}>
-          <Card
+          <AnimatedCard
             sx={{
               transition: '0.3s',
               '&:hover': {
@@ -47,6 +65,7 @@ const CardImgTop = () => {
                 boxShadow: '0 0 20px rgba(0,0,0,0.15)'
               }
             }}
+            delay={index * 0.5}
           >
             <CardMedia sx={{ height: '14.5625rem' }} image={item.imgCover} />
             <CardContent>
@@ -60,7 +79,7 @@ const CardImgTop = () => {
             <CardActions className='card-action-dense' sx={{ width: '100%', justifyContent: 'flex-end' }}>
               <Button onClick={() => handleButtonClick(item.id)}>ดูรายละเอียดเพิ่มเติม</Button>
             </CardActions>
-          </Card>
+          </AnimatedCard>
         </Grid>
       ))}
     </>

@@ -21,8 +21,7 @@ const HeroContact: React.FC = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-      <CardContent />
-
+        <CardContent />
       </Grid>
       <Grid item xs={2}></Grid>
 
@@ -45,12 +44,11 @@ const HeroContact: React.FC = () => {
             </Typography>
           </Grid>
           <Grid container spacing={3} sx={{ pt: 3 }}></Grid>
-          <Grid container spacing={3} sx={{ pt: 3 }}>
-            <Grid item xs={12} sm={12} md={12}>
-              <ContactSection />
-            </Grid>
-          </Grid>
-
+        </Grid>
+      </Grid>
+      <Grid container spacing={3} sx={{ pt: 3 }}>
+        <Grid item xs={12} sm={12} md={12}>
+          <ContactSection />
         </Grid>
       </Grid>
       <Grid item xs={2}></Grid>

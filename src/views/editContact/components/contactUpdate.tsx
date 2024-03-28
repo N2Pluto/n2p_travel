@@ -35,38 +35,49 @@ interface AdminUpdateProps {
 const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
   const [open, setOpen] = React.useState(false)
   const [itemData, setItemData] = useState<any>({})
-  const [coverImage, setCoverImage] = useState<File | null>(null)
-  const [uploadingCover, setUploadingCover] = React.useState(false)
-  const [imgCoverUrl, setImgCoverUrl] = useState({})
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
-  const [previewTitle, setPreviewTitle] = useState('')
-  const [fileList, setFileList] = useState<File[]>([])
-  const [uploading, setUploading] = React.useState(false)
-  const [imgDetailUrl, setImgDetailUrl] = useState<string[]>([])
+  const [profileImage, setProfileImage] = useState<File | null>(null)
+  const [uploadingProfile, setUploadingProfile] = React.useState(false)
+  const [imgProfileUrl, setImgProfileUrl] = useState({})
 
-   
-
-  const handleCoverDelete = async () => {
-    const filePath = `public/${coverImage?.name}`
-    const { error } = await supabase.storage.from('image').remove([filePath])
-    if (error) {
-      console.error('Error deleting cover image: ', error.message)
-    } else {
-      console.log('Cover image deleted successfully')
-      setCoverImage(null)
+  const handleProfileDelete = async () => {
+    if (profileImage) {
+      const filePath = `public/${profileImage.name}`
+      const { error } = await supabase.storage.from('image').remove([filePath])
+      if (error) {
+        console.error('Error deleting profile image: ', error.message)
+      } else {
+        console.log('Profile image deleted successfully')
+        setProfileImage(null)
+      }
     }
   }
 
-  const handleFileDelete = async (index: number) => {
-    const file = fileList[index]
-    const filePath = `public/${file.name}`
-    const { error } = await supabase.storage.from('image').remove([filePath])
-    if (error) {
-      console.error('Error deleting image: ', error.message)
-    } else {
-      console.log('Image deleted successfully')
-      setFileList(prevState => prevState.filter((_, i) => i !== index))
+  const handleProfileUploadClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target
+
+    if (files && files.length !== 0) {
+      setProfileImage(null) // Remove the existing image
+      setProfileImage(files[0])
+
+      // Upload file to Supabase
+      const timestamp = Date.now()
+      const filePath = `public/${timestamp}_${files[0].name}`
+      setUploadingProfile(true)
+      const { error } = await supabase.storage.from('image').upload(filePath, files[0])
+      if (error) {
+        console.error('Error uploading profile image: ', error.message)
+      } else {
+        console.log('Profile image uploaded successfully')
+        setUploadingProfile(false) // Hide the Backdrop
+        const { data, error: urlError } = await supabase.storage.from('image').getPublicUrl(filePath)
+        if (urlError) {
+          console.error('Error getting public URL: ', urlError.message)
+        } else {
+          const { publicUrl } = data
+          setImgProfileUrl(prevState => ({ ...prevState, image: publicUrl }))
+          console.log('Profile image URL:', publicUrl)
+        }
+      }
     }
   }
 
@@ -76,7 +87,13 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     setItemData(data)
     setOpen(true)
 
-    
+    const imageUrl = data.image
+    if (imageUrl) {
+      const response = await fetch(imageUrl)
+      const blob = await response.blob()
+      const file = new File([blob], 'profileImage', { type: blob.type })
+      setProfileImage(file)
+    }
   }
 
   const handleClose = () => {
@@ -90,65 +107,6 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     })
   }
 
-  const handleCoverUploadClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target
-
-    if (files && files.length !== 0) {
-      setCoverImage(null) // Remove the existing image
-      setCoverImage(files[0])
-
-      // Upload file to Supabase
-      const filePath = `public/${files[0].name}`
-      setUploadingCover(true)
-      const { error } = await supabase.storage.from('image').upload(filePath, files[0])
-      if (error) {
-        console.error('Error uploading cover image: ', error.message)
-      } else {
-        console.log('Cover image uploaded successfully')
-        setUploadingCover(false) // Hide the Backdrop
-        const { data, error: urlError } = await supabase.storage.from('image').getPublicUrl(filePath)
-        if (urlError) {
-          console.error('Error getting public URL: ', urlError.message)
-        } else {
-          const { publicUrl } = data
-          setImgCoverUrl(prevState => ({ ...prevState, imgCover: publicUrl }))
-          console.log('Cover image URL:', publicUrl)
-        }
-      }
-    }
-  }
-
-  const handleUploadClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader()
-    const { files } = event.target
-
-    if (files && files.length !== 0) {
-      setFileList([...fileList, files[0]])
-      reader.onload = () => setPreviewImage(reader.result as string)
-      reader.readAsDataURL(files[0])
-      setPreviewTitle(files[0].name)
-
-      // Upload file to Supabase
-      const filePath = `public/${files[0].name}`
-      setUploading(true)
-      const { error } = await supabase.storage.from('image').upload(filePath, files[0])
-      if (error) {
-        console.error('Error uploading image: ', error.message)
-      } else {
-        console.log('Image uploaded successfully')
-        setUploading(false) // Hide the Backdrop
-        const { data, error: urlError } = await supabase.storage.from('image').getPublicUrl(filePath)
-        if (urlError) {
-          console.error('Error getting public URL: ', urlError.message)
-        } else {
-          const { publicUrl } = data
-          setImgDetailUrl(prevState => [...prevState, publicUrl])
-          console.log('Image Details URL:', publicUrl)
-        }
-      }
-    }
-  }
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -158,10 +116,11 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     formJson = {
       ...formJson,
       id: itemData.id,
+      image: imgProfileUrl.image // Add this line
     }
 
     console.log(formJson)
-    const response = await fetch('/api/Contact/Update/update', {
+    const response = await fetch('/api/Contact/Update/', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -171,7 +130,6 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     const data = await response.json()
     console.log(data)
     handleClose()
-
   }
 
   return (
@@ -194,78 +152,37 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               To Edit to this website, please enter your details here. We will send updates occasionally.
             </DialogContentText>
 
-            {/* <Grid container direction='row' justifyContent='center' alignItems='center' style={{ minHeight: '10vh' }}>
+            <Grid container direction='row' justifyContent='center' alignItems='center' style={{ minHeight: '10vh' }}>
               <input
                 accept='image/png, image/jpeg , image/JPG, image/jpg, image/JPEG, image/PNG'
                 style={{ display: 'none' }}
-                id='cover-button-file'
+                id='profile-button-file'
                 type='file'
-                onChange={handleCoverUploadClick}
+                onChange={handleProfileUploadClick}
               />
-              <label htmlFor='cover-button-file'>
+              <label htmlFor='profile-button-file'>
                 <Button component='span' startIcon={<PhotoCamera />}>
-                  Upload Cover Image
+                  Upload Profile Image
                 </Button>
               </label>
-              <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={uploadingCover}>
+              <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={uploadingProfile}>
                 <CircularProgress color='inherit' />
               </Backdrop>
-            </Grid> */}
+            </Grid>
 
-            {/* {coverImage && (
+            {profileImage && (
               <Grid container justifyContent='center' alignItems='center'>
                 <Grid item xs={4}>
                   <div style={{ position: 'relative' }}>
-                    <IconButton onClick={handleCoverDelete} style={{ position: 'absolute', top: 0, right: 0 }}>
-                      <Close />
-                    </IconButton>
                     <img
-                      src={URL.createObjectURL(coverImage)}
-                      alt={coverImage.name}
+                      src={URL.createObjectURL(profileImage)}
+                      alt='Profile'
                       style={{ width: '100%', height: '200px', objectFit: 'cover' }}
                     />
                   </div>
                 </Grid>
               </Grid>
-            )} */}
-
-            {/* <Grid container direction='row' justifyContent='center' alignItems='center' style={{ minHeight: '10vh' }}>
-              <input
-                accept='image/png, image/jpeg , image/JPG, image/jpg, image/JPEG, image/PNG'
-                style={{ display: 'none' }}
-                id='raised-button-file'
-                type='file'
-                onChange={handleUploadClick}
-              />
-              <label htmlFor='raised-button-file'>
-                <Button component='span' startIcon={<PhotoCamera />}>
-                  Upload Image Details
-                </Button>
-              </label>
-              <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={uploading}>
-                <CircularProgress color='inherit' />
-              </Backdrop>
-            </Grid> */}
-
-            <Grid container direction='row' spacing={2}>
-              {fileList.map((file, index) => (
-                <Grid item xs={4} key={index}>
-                  <div style={{ position: 'relative' }}>
-                    <IconButton
-                      onClick={() => handleFileDelete(index)}
-                      style={{ position: 'absolute', top: 0, right: 0 }}
-                    >
-                      <Close />
-                    </IconButton>
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt={file.name}
-                      style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                    />
-                  </div>
-                </Grid>
-              ))}
-            </Grid>
+            )}
 
             <TextField
               autoFocus
@@ -292,7 +209,7 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               value={itemData.lastname || ''}
               onChange={handleInputChange}
             />
-             <TextField
+            <TextField
               required
               margin='dense'
               id='instagram'
@@ -304,19 +221,8 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               value={itemData.instagram || ''}
               onChange={handleInputChange}
             />
-             <TextField
-              required
-              margin='dense'
-              id='phone'
-              name='phone'
-              label='Phone'
-              type='text'
-              fullWidth
-              variant='standard'
-              value={itemData.phone || ''}
-              onChange={handleInputChange}
-            />
-             <TextField
+
+            <TextField
               required
               margin='dense'
               id='facebook'
@@ -328,8 +234,18 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
               value={itemData.facebook || ''}
               onChange={handleInputChange}
             />
-            
-
+            <TextField
+              required
+              margin='dense'
+              id='phone'
+              name='phone'
+              label='Phone'
+              type='text'
+              fullWidth
+              variant='standard'
+              value={itemData.phone || ''}
+              onChange={handleInputChange}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
@@ -337,7 +253,6 @@ const ContactUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
           </DialogActions>
         </Dialog>
       </Grid>
-
     </>
   )
 }
