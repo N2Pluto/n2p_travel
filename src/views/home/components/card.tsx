@@ -21,10 +21,17 @@ const slideIn = keyframes`
   }
 `
 
-const AnimatedCard = styled(Card)(({ theme, delay }) => ({
-  animation: `${slideIn} 0.5s ease-out ${delay}s forwards`,
-  transformOrigin: 'left',
-  opacity: 0
+const AnimatedCard = styled(Card)(({ theme}) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  flexGrow: 1,
+  animation: `${slideIn} 0.5s ease-in-out`,
+  transform: 'scale(1)',
+  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+  '&:hover': {
+    transform: 'scale(1.05)', // Added transform: scale(1.05) on hover
+    boxShadow: '0 0 20px rgba(0,0,0,0.3)'
+  }
 }))
 
 interface TourismData {
@@ -59,9 +66,13 @@ const CardImgTop = () => {
         <Grid item xs={12} sm={6} md={6} key={index}>
           <AnimatedCard
             sx={{
-              transition: '0.3s',
+              display: 'flex',
+              flexDirection: 'column',
+              flexGrow: 1,
+              transform: 'scale(1)',
+              transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
               '&:hover': {
-                transform: 'scale(1.02)',
+                transform: 'scale(1.05)', // Added transform: scale(1.05) on hover
                 boxShadow: '0 0 20px rgba(0,0,0,0.15)'
               }
             }}

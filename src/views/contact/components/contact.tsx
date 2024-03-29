@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, CardMedia, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
+import CardMedia from '@mui/material/CardMedia'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Container } from '@mui/material'
 import Card from '@mui/material/Card'
@@ -20,10 +22,18 @@ const slideIn = keyframes`
   }
 `
 
-const SlideInCard = styled(Card)(({ theme, delay }) => ({
-  animation: `${slideIn} 0.5s ease-out ${delay}s forwards`,
-  transformOrigin: 'left',
-  opacity: 0
+const SlideInCard = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  flexGrow: 1,
+  animation: `${slideIn} 0.5s ease-in-out`,
+  transform: 'scale(1)',
+  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+  '&:hover': {
+    transform: 'scale(1.05)', // เปลี่ยนจาก scale(1.05%) เป็น scale(1.05)
+    boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)'
+  }
 }))
 
 const ContactSection: React.FC = () => {
@@ -57,12 +67,13 @@ const ContactSection: React.FC = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    flexGrow: 1, // Add this line
+                    transform: 'scale(1)',
                     transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
                     '&:hover': {
                       transform: 'scale(1.05)',
                       boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)'
-                    },
-                    flexGrow: 1 // Add this line
+                    }
                   }}
                   delay={index * 0.5}
                 >
