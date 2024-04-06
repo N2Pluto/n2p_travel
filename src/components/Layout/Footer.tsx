@@ -8,7 +8,7 @@ interface FooterProps {}
 const Footer: React.FC<FooterProps> = () => {
   return (
     <footer className='bg-black'>
-      <div className='w-full h-[300px] flex flex-col justify-center items-center relative'>
+      <div className='w-full h-[200px] flex flex-col justify-center items-center relative'>
         <div className='w-full container flex flex-col justify-center items-center text-white px-4'>
           {/* First Row */}
           <h1 className='text-4xl font-bold mb-8'>Triplot</h1>

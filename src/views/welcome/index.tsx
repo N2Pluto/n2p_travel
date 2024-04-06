@@ -15,7 +15,6 @@ export const WelcomePage: NextPage = () => {
   return (
     <Layout>
       <Hero /> 
-      
     </Layout>
   )
 }

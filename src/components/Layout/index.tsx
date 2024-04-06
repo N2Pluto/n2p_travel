@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <React.Fragment>
       <Navbar2 />
-      <div className='min-h-[calc(100vh-10px-8px)] pt-12 never-used box-content'>{children}</div>
+      <div className='min-h-[calc(100vh-px-8px)] pt-12 never-used box-content'>{children}</div>
       <Footer />
       <Copyright />
     </React.Fragment>
