@@ -155,37 +155,31 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     }
   }
 
-  const handleUploadClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader()
-    const { files } = event.target
+const handleUploadClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { files } = event.target
 
-    if (files && files.length !== 0) {
-      reader.onload = () => setPreviewImage(reader.result as string)
-      reader.readAsDataURL(files[0])
-      setPreviewTitle(files[0].name)
-
-      // Upload file to Supabase
-      const timestamp = Date.now()
-      const filePath = `public/${timestamp}_${files[0].name}`
-      setUploading(true)
-      const { error } = await supabase.storage.from('image').upload(filePath, files[0])
-      if (error) {
-        console.error('Error uploading image: ', error.message)
+  if (files && files.length !== 0) {
+    // Upload file to Supabase
+    const filePath = `public/${files[0].name}`
+    setUploading(true)
+    const { error } = await supabase.storage.from('image').upload(filePath, files[0])
+    if (error) {
+      console.error('Error uploading image: ', error.message)
+    } else {
+      console.log('Image uploaded successfully')
+      setUploading(false) // Hide the Backdrop
+      const { data, error: urlError } = await supabase.storage.from('image').getPublicUrl(filePath)
+      if (urlError) {
+        console.error('Error getting public URL: ', urlError.message)
       } else {
-        console.log('Image uploaded successfully')
-        setUploading(false) // Hide the Backdrop
-        const { data, error: urlError } = await supabase.storage.from('image').getPublicUrl(filePath)
-        if (urlError) {
-          console.error('Error getting public URL: ', urlError.message)
-        } else {
-          const { publicUrl } = data
-          setImgDetailUrl(prevState => [...prevState, publicUrl])
-          console.log('Image Details URL:', publicUrl)
-          setFileList([...fileList, files[0]]) // Update fileList state here
-        }
+        const { publicUrl } = data
+        setImgDetailUrl(prevState => [...prevState, publicUrl])
+        console.log('Image Details URL:', publicUrl)
+        setFileList([...fileList, files[0]]) // Update fileList state here
       }
     }
   }
+}
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -201,16 +195,23 @@ const AdminUpdate: React.FC<AdminUpdateProps> = ({ id }) => {
     }
 
     console.log(formJson)
-    const response = await fetch('/api/Tourism/update', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formJson)
-    })
-    const data = await response.json()
-    console.log(data)
-    handleClose()
+    try {
+      const response = await fetch('/api/Tourism/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formJson)
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const data = await response.json()
+      console.log(data)
+      handleClose()
+    } catch (error) {
+      console.error('Failed to update:', error)
+    }
   }
 
   return (

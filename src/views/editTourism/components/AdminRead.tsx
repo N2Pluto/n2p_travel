@@ -54,6 +54,9 @@ interface Item {
   id: number
   name: string
   operation_time: string
+  location: string
+  latitude: number
+  longitude: number
   description: string
   imgCover: string
 }
@@ -97,12 +100,20 @@ const CardEdit = () => {
                       {item.name}
                     </Typography>
                     <Box sx={{ mb: 4.75, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}></Box>
-
-                    <Typography variant='body2' className='mitr-light' sx={{ marginBottom: 4 }}>
-                      {item.operation_time}
-                    </Typography>
                     <Typography variant='body2' className='mitr-light'>
-                      {item.description.substring(0, 150)} ...
+                      Description : {item.description.substring(0, 150)} ...
+                    </Typography>
+                    <Typography variant='body2' className='mitr-light' sx={{ marginBottom: 1 }}>
+                      Operation :{item.operation_time}
+                    </Typography>
+                    <Typography variant='body2' className='mitr-light' sx={{ marginBottom: 1 }}>
+                      Location :{item.location}
+                    </Typography>
+                    <Typography variant='body2' className='mitr-light' sx={{ marginBottom: 1 }}>
+                      Latitude :{item.latitude}
+                    </Typography>
+                    <Typography variant='body2' className='mitr-light' sx={{ marginBottom: 1 }}>
+                      Longitude :{item.longitude}
                     </Typography>
                   </CardContent>
                   <CardActions className='card-action-dense' sx={{ width: '100%' }}>
